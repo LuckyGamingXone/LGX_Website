@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
   try {
-    const data = await request.json();
+    const data = (await request.json()) as Record<string, any>;
     const { firstName, lastName, email, phone, subject, message } = data;
 
     if (!firstName || !email || !message) {

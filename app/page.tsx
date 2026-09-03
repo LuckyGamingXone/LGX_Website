@@ -375,8 +375,7 @@ export default function Home() {
     async function loadGames() {
       try {
         const response = await fetch('/api/games', { cache: 'no-store' });
-        if (!response.ok) throw new Error('Store fetch failed');
-        const payload = await response.json();
+        const payload = (await response.json()) as { games?: Partial<Game>[] };
         if (!mounted) return;
         const liveGames = (payload.games ?? []).map((game: Partial<Game>, index: number) => ({
           ...catalogGames[index],
@@ -644,7 +643,7 @@ export default function Home() {
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(payload),
                 });
-                const result = await res.json();
+                const result = (await res.json()) as { message?: string; error?: string };
                 if (res.ok) {
                   setSubmitMessage(result.message || 'Thank you! Your message has been sent.');
                   form.reset();
